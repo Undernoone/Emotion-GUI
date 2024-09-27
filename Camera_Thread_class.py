@@ -1,5 +1,4 @@
 import time
-
 import tensorflow as tf
 import numpy as np
 from PyQt5 import QtCore, QtGui
@@ -7,7 +6,6 @@ from PyQt5.QtCore import QThread
 import cv2
 from tensorflow.python.keras import Sequential
 from tensorflow.python.keras.layers import Dense
-
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
@@ -15,17 +13,17 @@ from matplotlib.figure import Figure
 class Camera_Thread_class(QThread):
     def __init__(self, ui):
         super().__init__()
-        self.running_flag = True
+        self.running_flag = True # 控制线程的运行(用于控制摄像头）
         self.ui = ui
         # 初始化keras模型
         self.model = self.get_student_model()
         self.types = ['Angry', 'Happy', 'Neutral', 'Sad', 'Surprise']
-        self.initEmojis()
-        self.initBar()
+        self.initEmojis() # 表情符号
+        self.initBar() # 初始化一个绘图组件，嵌入 PyQt 界面中
 
     def get_student_model(self):
         stu_base = tf.keras.applications.MobileNetV2(
-            input_shape=None,
+            input_shape=None, # 全连接层输入
             alpha=1.0,
             include_top=True,
             # weights='imagenet',
@@ -36,8 +34,8 @@ class Camera_Thread_class(QThread):
         )
         # 生成一个model
         student_model = Sequential(stu_base)
-        student_model.add(Dense(5, activation="softmax"))
-        student_model.load_weights("weight.h5")
+        student_model.add(Dense(5, activation="softmax")) # 添加一个全连接层，输出5个类别，softmax激活函数
+        student_model.load_weights("weight.h5") # 加载预训练的权重文件
 
         return student_model
 
@@ -48,22 +46,19 @@ class Camera_Thread_class(QThread):
 
     def initCamera_timer(self):
         self.timer_camera = QtCore.QTimer()
-        self.timer_camera.start(10)
+        self.timer_camera.start(1)
         self.timer_camera.timeout.connect(self.showCamera)
 
     def showCamera(self):
-        
         flag, self.image = self.cap.read()
         show = cv2.resize(self.image, (160, 150))
         show = cv2.cvtColor(show, cv2.COLOR_BGR2RGB)
         showImage = QtGui.QImage(show.data, show.shape[1], show.shape[0], QtGui.QImage.Format_RGB888)
         self.ui.Cameralabel.setPixmap(QtGui.QPixmap.fromImage(showImage))
-
         self.getDetectCamera(self.image)
 
     # showCamera的附属函数
     def getDetectCamera(self, pics):
-
         frame = pics
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         frame_raw = pics.copy()
@@ -71,7 +66,7 @@ class Camera_Thread_class(QThread):
         classifier = cv2.CascadeClassifier(
             "haarcascade_frontalface_default.xml"
         )
-        color = (255, 0, 0) 
+        color = (255, 0, 0)
         # 调用识别人脸
         faceRects = classifier.detectMultiScale(
             gray, scaleFactor=1.2, minNeighbors=3, minSize=(150, 150))
@@ -88,7 +83,7 @@ class Camera_Thread_class(QThread):
                            color, 5)
                 cv2.circle(frame, (x + 3 * w // 4, y + h // 4 + 30), min(w // 8, h // 8),
                            color, 5)
-                
+
                 cv2.rectangle(frame, (x + 3 * w // 8, y + 3 * h // 4),
                               (x + 5 * w // 8, y + 7 * h // 8), color, 5)
 
@@ -104,8 +99,6 @@ class Camera_Thread_class(QThread):
 
             face_area = frame_raw[y:y + h, x:x + w]
 
-
-
         else:
             self.ui.emtiontextlabel.setText("未检测到人脸！")
 
@@ -114,19 +107,15 @@ class Camera_Thread_class(QThread):
         self.angry_emoji = cv2.imread("./emoji_pics/angry.png")
         self.angry_emoji = cv2.cvtColor(self.angry_emoji, cv2.COLOR_BGR2RGB)
         self.angry_emoji = cv2.resize(self.angry_emoji, shapee)
-
         self.happy_emoji = cv2.imread("./emoji_pics/happy.png")
         self.happy_emoji = cv2.cvtColor(self.happy_emoji, cv2.COLOR_BGR2RGB)
         self.happy_emoji = cv2.resize(self.happy_emoji, shapee)
-
         self.neutral_emoji = cv2.imread("./emoji_pics/neutral.png")
         self.neutral_emoji = cv2.cvtColor(self.neutral_emoji, cv2.COLOR_BGR2RGB)
         self.neutral_emoji = cv2.resize(self.neutral_emoji, shapee)
-
         self.sad_emoji = cv2.imread("./emoji_pics/sad.png")
         self.sad_emoji = cv2.cvtColor(self.sad_emoji, cv2.COLOR_BGR2RGB)
         self.sad_emoji = cv2.resize(self.sad_emoji, shapee)
-
         self.surprise_emoji = cv2.imread("./emoji_pics/surprise.png")
         self.surprise_emoji = cv2.cvtColor(self.surprise_emoji, cv2.COLOR_BGR2RGB)
         self.surprise_emoji = cv2.resize(self.surprise_emoji, shapee)

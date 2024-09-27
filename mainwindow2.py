@@ -13,102 +13,97 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(936, 518)
-        MainWindow.setStyleSheet("#MainWindow{border-image:url(./ktj_background.png);}")
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.DetectOnBtn = QtWidgets.QPushButton(self.centralwidget)
-        self.DetectOnBtn.setGeometry(QtCore.QRect(20, 380, 161, 91))
-        font = QtGui.QFont()
-        font.setPointSize(28)
-        self.DetectOnBtn.setFont(font)
-        self.DetectOnBtn.setObjectName("DetectOnBtn")
-        self.Cameralabel = QtWidgets.QLabel(self.centralwidget)
-        self.Cameralabel.setGeometry(QtCore.QRect(30, 10, 161, 151))
-        self.Cameralabel.setAutoFillBackground(False)
-        self.Cameralabel.setStyleSheet("border-style: solid;\n"
-"border-width: 1px;")
-        self.Cameralabel.setText("")
-        self.Cameralabel.setObjectName("Cameralabel")
-        self.Detectlabel = QtWidgets.QLabel(self.centralwidget)
-        self.Detectlabel.setGeometry(QtCore.QRect(210, 10, 161, 151))
-        self.Detectlabel.setStyleSheet("border-style: solid;\n"
-"border-width: 1px;")
-        self.Detectlabel.setText("")
-        self.Detectlabel.setObjectName("Detectlabel")
-        self.shibiejieguo = QtWidgets.QLabel(self.centralwidget)
-        self.shibiejieguo.setGeometry(QtCore.QRect(30, 280, 151, 41))
-        font = QtGui.QFont()
-        font.setPointSize(21)
-        self.shibiejieguo.setFont(font)
-        self.shibiejieguo.setStyleSheet("color:white")
-        self.shibiejieguo.setObjectName("shibiejieguo")
-        self.emtiontextlabel = QtWidgets.QLabel(self.centralwidget)
-        self.emtiontextlabel.setGeometry(QtCore.QRect(140, 280, 151, 41))
-        font = QtGui.QFont()
-        font.setPointSize(21)
-        self.emtiontextlabel.setFont(font)
-        self.emtiontextlabel.setStyleSheet("color:white")
-        self.emtiontextlabel.setObjectName("emtiontextlabel")
-        self.Face_Label = QtWidgets.QLabel(self.centralwidget)
-        self.Face_Label.setGeometry(QtCore.QRect(390, 10, 161, 151))
-        self.Face_Label.setStyleSheet("border-style: solid;\n"
-"border-width: 1px;")
-        self.Face_Label.setText("")
-        self.Face_Label.setObjectName("Face_Label")
-        self.EmojiLabel = QtWidgets.QLabel(self.centralwidget)
-        self.EmojiLabel.setGeometry(QtCore.QRect(390, 170, 161, 151))
-        self.EmojiLabel.setStyleSheet("border-style: solid;\n"
-"border-width: 1px;")
-        self.EmojiLabel.setText("")
-        self.EmojiLabel.setObjectName("EmojiLabel")
-        self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(570, 0, 361, 481))
-        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
-        self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout.setObjectName("gridLayout")
-        self.DetectOffBtn = QtWidgets.QPushButton(self.centralwidget)
-        self.DetectOffBtn.setGeometry(QtCore.QRect(210, 380, 161, 91))
-        font = QtGui.QFont()
-        font.setPointSize(28)
-        self.DetectOffBtn.setFont(font)
-        self.DetectOffBtn.setObjectName("DetectOffBtn")
-        self.noticetext = QtWidgets.QTextBrowser(self.centralwidget)
-        self.noticetext.setGeometry(QtCore.QRect(20, 170, 351, 101))
-        self.noticetext.setObjectName("noticetext")
-        self.online = QtWidgets.QLabel(self.centralwidget)
-        self.online.setGeometry(QtCore.QRect(140, 320, 151, 41))
-        font = QtGui.QFont()
-        font.setPointSize(21)
-        self.online.setFont(font)
-        self.online.setStyleSheet("color:white")
-        self.online.setObjectName("online")
-        self.onlined = QtWidgets.QLabel(self.centralwidget)
-        self.onlined.setGeometry(QtCore.QRect(30, 320, 151, 41))
-        font = QtGui.QFont()
-        font.setPointSize(21)
-        self.onlined.setFont(font)
-        self.onlined.setStyleSheet("color:white")
-        self.onlined.setObjectName("onlined")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 936, 24))
-        self.menuBar.setObjectName("menuBar")
-        MainWindow.setMenuBar(self.menuBar)
+        try:
+            MainWindow.setObjectName("MainWindow")
+            MainWindow.resize(936, 518)
+            MainWindow.setStyleSheet("#MainWindow{border-image:url(./ktj_background.png);}")
+            self.centralwidget = QtWidgets.QWidget(MainWindow)
+            self.centralwidget.setObjectName("centralwidget")
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+            # 创建字体
+            font = QtGui.QFont()
+            font.setPointSize(28)
+
+            # 创建按钮
+            self.DetectOnBtn = self.create_button(self.centralwidget, "DetectOnBtn", (20, 380, 500, 500), font, "启动识别\nStart")
+            self.DetectOffBtn = self.create_button(self.centralwidget, "DetectOffBtn", (210, 380, 500, 500), font, "停止识别\nStop")
+
+            # 创建标签
+            self.Cameralabel = self.create_label(self.centralwidget, "Cameralabel", (30, 10, 161, 151))
+            self.Detectlabel = self.create_label(self.centralwidget, "Detectlabel", (210, 10, 161, 151))
+            self.Face_Label = self.create_label(self.centralwidget, "Face_Label", (390, 10, 161, 151))
+            self.EmojiLabel = self.create_label(self.centralwidget, "EmojiLabel", (390, 170, 161, 151))
+
+            # 创建识别结果和状态标签
+            self.shibiejieguo = self.create_text_label(self.centralwidget, "shibiejieguo", (30, 280, 151, 41), "识别结果：", 21)
+            self.emtiontextlabel = self.create_text_label(self.centralwidget, "emtiontextlabel", (140, 280, 151, 41), "Loading........", 21)
+            self.online = self.create_text_label(self.centralwidget, "online", (140, 320, 151, 41), "Loading........", 21)
+            self.onlined = self.create_text_label(self.centralwidget, "onlined", (30, 320, 151, 41), "网络状态：", 21)
+
+            self.noticetext = QtWidgets.QTextBrowser(self.centralwidget)
+            self.noticetext.setGeometry(QtCore.QRect(20, 170, 351, 101))
+            self.noticetext.setObjectName("noticetext")
+
+            self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+            self.gridLayoutWidget.setGeometry(QtCore.QRect(570, 0, 361, 481))
+            self.gridLayoutWidget.setObjectName("gridLayoutWidget")
+            self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
+            self.gridLayout.setContentsMargins(0, 0, 0, 0)
+            self.gridLayout.setObjectName("gridLayout")
+
+            MainWindow.setCentralWidget(self.centralwidget)
+            self.menuBar = QtWidgets.QMenuBar(MainWindow)
+            self.menuBar.setGeometry(QtCore.QRect(0, 0, 936, 24))
+            self.menuBar.setObjectName("menuBar")
+            MainWindow.setMenuBar(self.menuBar)
+
+            self.retranslateUi(MainWindow)
+            QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        except Exception as e:
+            print(f"设置UI时发生错误: {e}")
+
+    def create_button(self, parent, name, geometry, font, text):
+        button = QtWidgets.QPushButton(parent)
+        button.setGeometry(QtCore.QRect(*geometry))
+        button.setFont(font)
+        button.setObjectName(name)
+        button.setText(text)
+        return button
+
+    def create_label(self, parent, name, geometry):
+        label = QtWidgets.QLabel(parent)
+        label.setGeometry(QtCore.QRect(*geometry))
+        label.setStyleSheet("border-style: solid;\n"
+                            "border-width: 1px;")
+        label.setText("")
+        label.setObjectName(name)
+        return label
+
+    def create_text_label(self, parent, name, geometry, text, font_size):
+        font = QtGui.QFont()
+        font.setPointSize(font_size)
+        label = QtWidgets.QLabel(parent)
+        label.setGeometry(QtCore.QRect(*geometry))
+        label.setFont(font)
+        label.setStyleSheet("color:white")
+        label.setText(text)
+        label.setObjectName(name)
+        return label
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.DetectOnBtn.setText(_translate("MainWindow", "启动识别\n"
-"Start"))
-        self.shibiejieguo.setText(_translate("MainWindow", "识别结果："))
-        self.emtiontextlabel.setText(_translate("MainWindow", "Loading........"))
-        self.DetectOffBtn.setText(_translate("MainWindow", "停止识别\n"
-"Stop"))
-        self.online.setText(_translate("MainWindow", "Loading........"))
-        self.onlined.setText(_translate("MainWindow", "网络状态："))
+        # 多语言支持可以放在这里
+
+if __name__ == "__main__":
+    import sys
+    try:
+        app = QtWidgets.QApplication(sys.argv)
+        MainWindow = QtWidgets.QMainWindow()
+        ui = Ui_MainWindow()
+        ui.setupUi(MainWindow)
+        MainWindow.show()
+        sys.exit(app.exec_())
+    except Exception as e:
+        print(f"应用程序启动时发生错误: {e}")
