@@ -1,14 +1,13 @@
 import sys
-
 import matplotlib
 from PyQt5 import QtWidgets
-
+import mainwindow2 as uiWindow
 
 from Camera_Thread_class import Camera_Thread_class
 
 matplotlib.use("Qt5Agg")  # 声明使用QT5
 
-import  mainwindow2 as uiWindow
+
 ui=0
 
 class FaceMain:

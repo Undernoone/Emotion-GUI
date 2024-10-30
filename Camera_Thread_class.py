@@ -51,7 +51,7 @@ class Camera_Thread_class(QThread):
 
     def showCamera(self):
         flag, self.image = self.cap.read()
-        show = cv2.resize(self.image, (160, 150))
+        show = cv2.resize(self.image, (200, 200))
         show = cv2.cvtColor(show, cv2.COLOR_BGR2RGB)
         showImage = QtGui.QImage(show.data, show.shape[1], show.shape[0], QtGui.QImage.Format_RGB888)
         self.ui.Cameralabel.setPixmap(QtGui.QPixmap.fromImage(showImage))
@@ -69,7 +69,7 @@ class Camera_Thread_class(QThread):
         color = (255, 0, 0)
         # 调用识别人脸
         faceRects = classifier.detectMultiScale(
-            gray, scaleFactor=1.2, minNeighbors=3, minSize=(150, 150))
+            gray, scaleFactor=1.2, minNeighbors=3, minSize=(200, 200))
 
         x, y, w, h = (0, 0, 0, 0)
         if len(faceRects):  # 大于0则检测到人脸
@@ -87,7 +87,7 @@ class Camera_Thread_class(QThread):
                 cv2.rectangle(frame, (x + 3 * w // 8, y + 3 * h // 4),
                               (x + 5 * w // 8, y + 7 * h // 8), color, 5)
 
-        show = cv2.resize(frame, (160, 150))
+        show = cv2.resize(frame, (200, 200))
         show = cv2.cvtColor(show, cv2.COLOR_BGR2RGB)
         showImage = QtGui.QImage(show.data, show.shape[1], show.shape[0], QtGui.QImage.Format_RGB888)
         self.ui.Detectlabel.setPixmap(QtGui.QPixmap.fromImage(showImage))
@@ -100,10 +100,10 @@ class Camera_Thread_class(QThread):
             face_area = frame_raw[y:y + h, x:x + w]
 
         else:
-            self.ui.emtiontextlabel.setText("未检测到人脸！")
+            self.ui.emtiontextlabel.setText("未检测到面部")
 
     def initEmojis(self):
-        shapee = (160, 150)
+        shapee = (200, 200)
         self.angry_emoji = cv2.imread("./emoji_pics/angry.png")
         self.angry_emoji = cv2.cvtColor(self.angry_emoji, cv2.COLOR_BGR2RGB)
         self.angry_emoji = cv2.resize(self.angry_emoji, shapee)
@@ -124,7 +124,7 @@ class Camera_Thread_class(QThread):
         img = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
         img = cv2.resize(img, (224, 224), interpolation=cv2.INTER_LINEAR)
-        img_show = cv2.resize(img, (160, 150))
+        img_show = cv2.resize(img, (200, 200))
         showImage = QtGui.QImage(img_show.data, img_show.shape[1], img_show.shape[0], QtGui.QImage.Format_RGB888)
         self.ui.Face_Label.setPixmap(QtGui.QPixmap.fromImage(showImage))
         img = (img[..., ::-1].astype(np.float32)) / 255.0
